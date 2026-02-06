@@ -1,73 +1,67 @@
-# React + TypeScript + Vite
+# BlockAudio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web Audio API をビジュアルなノードグラフで学べるインタラクティブなプレイグラウンドです。ブラウザ上でオーディオノードをドラッグ&ドロップで配置・接続し、リアルタイムに音を鳴らしながら Web Audio API の仕組みを体験できます。
 
-Currently, two official plugins are available:
+## 特徴
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **ノードベースのビジュアルエディタ** - キャンバス上にノードを配置し、ポート同士をドラッグで接続
+- **リアルタイム再生** - 再生ボタンを押すとすぐに音が鳴り、パラメータ変更が即座に反映
+- **波形・スペクトラム表示** - AnalyserNode で音声信号をリアルタイムに可視化
+- **コード生成** - 構築したグラフから等価な Web Audio API の JavaScript コードを自動生成
+- **プリセット** - 段階的に学べるサンプルグラフを用意
 
-## React Compiler
+## 対応ノード
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| カテゴリ | ノード | 説明 |
+|---------|--------|------|
+| Source | Oscillator | 正弦波・矩形波・鋸歯状波・三角波の生成 |
+| Effect | Gain | 音量の制御 |
+| Effect | BiquadFilter | ローパス・ハイパスなど各種フィルタ |
+| Effect | Delay | 音声の遅延（エコー構成に利用） |
+| Effect | StereoPanner | 左右の定位制御 |
+| Effect | DynamicsCompressor | ダイナミクスの圧縮 |
+| Analysis | Analyser | 波形・スペクトラムの可視化 |
+| Output | Destination | スピーカーへの最終出力 |
 
-## Expanding the ESLint configuration
+## プリセット
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **はじめての音** - Oscillator → Destination の最小構成
+2. **音量を操る** - GainNode で音量を制御
+3. **波形を見る** - AnalyserNode で音声信号を可視化
+4. **音色フィルタ** - BiquadFilterNode で倍音成分を加工
+5. **エコーを作る** - DelayNode でフィードバックループを構成
+6. **シンセサイザー** - 複数 Oscillator の加算合成
+7. **ステレオ空間** - StereoPannerNode で左右定位を制御
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 開発
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### セットアップ
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 開発サーバー
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+### ビルド
+
+```bash
+npm run build
+```
+
+### Lint
+
+```bash
+npm run lint
+```
+
+## 技術スタック
+
+- [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Web Audio API](https://developer.mozilla.org/ja/docs/Web/API/Web_Audio_API)
